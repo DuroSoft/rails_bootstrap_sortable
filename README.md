@@ -7,11 +7,13 @@ This gem packages the lovely bootstrap-sortable gem from [drvic10k/bootstrap-sor
 Add these lines to your rails project's Gemfile:
 
 	gem 'momentjs-rails'
-    gem 'rails_bootstrap_sortable'
+	gem 'rails_bootstrap_sortable'
 
 Install the new gems:
 
     $ bundle install
+
+(for more info see [rails_bootstrap_sortable on rubygems.org](https://rubygems.org/gems/rails_bootstrap_sortable))
 
 Add this line to application.css.scss:
 ```
