@@ -4,8 +4,6 @@
 (function ($) {
 
     var $document = $(document),
-        bsSort = [],
-        lastSort,
         signClass;
 
     $.bootstrapSortable = function (applyLast, sign) {
@@ -18,13 +16,16 @@
 
         // set attributes needed for sorting
         $('table.sortable').each(function () {
-            var $this = $(this);
+            var $this = $(this),
+                context = lookupSortContext($this),
+                bsSort = context.bsSort;
             applyLast = (applyLast === true);
             $this.find('span.sign').remove();
             $this.find('thead tr').each(function (rowIndex) {
                 var columnsSkipped = 0;
                 $(this).find('th').each(function (columnIndex) {
                     var $this = $(this);
+                    $this.addClass('nosort').removeClass('up down');
                     $this.attr('data-sortcolumn', columnIndex + columnsSkipped);
                     $this.attr('data-sortkey', columnIndex + '-' + rowIndex);
                     if ($this.attr("colspan") !== undefined) {
@@ -46,7 +47,7 @@
                 var $sortTable = $this.closest('table.sortable');
                 $this.data('sortTable', $sortTable);
                 var sortKey = $this.attr('data-sortkey');
-                var thisLastSort = applyLast ? lastSort : -1;
+                var thisLastSort = applyLast ? context.lastSort : -1;
                 bsSort[sortKey] = applyLast ? bsSort[sortKey] : $this.attr('data-defaultsort');
                 if (bsSort[sortKey] !== undefined && (applyLast === (sortKey === thisLastSort))) {
                     bsSort[sortKey] = bsSort[sortKey] === 'asc' ? 'desc' : 'asc';
@@ -64,9 +65,22 @@
         $table.trigger('sorted');
     });
 
+    // Look up sorting data appropriate for the specified table (jQuery element).
+    // This allows multiple tables on one page without collisions.
+    function lookupSortContext($table) {
+        var context = $table.data("bootstrap-sortable-context");
+        if(context == null) {
+            context = { bsSort: [], lastSort: null };
+            $table.data("bootstrap-sortable-context", context);
+        }
+        return context;
+    }
+
     //Sorting mechanism separated
     function doSort($this, $table) {
-        var sortColumn = $this.attr('data-sortcolumn');
+        var sortColumn = $this.attr('data-sortcolumn'),
+            context = lookupSortContext($table),
+            bsSort = context.bsSort;
 
         var colspan = $this.attr('colspan');
         if (colspan) {
@@ -85,6 +99,10 @@
         var localSignClass = $this.attr('data-defaultsign') || signClass;
 
         // update arrow icon
+        $table.find('th').each(function() {
+            $(this).removeClass('up').removeClass('down').addClass('nosort');
+        });
+
         if ($.browser.mozilla) {
             var moz_arrow = $table.find('div.mozilla');
             if (moz_arrow !== undefined) {
@@ -103,14 +121,19 @@
         var sortKey = $this.attr('data-sortkey');
         var initialDirection = $this.attr('data-firstsort') !== 'desc' ? 'desc' : 'asc';
 
-        lastSort = sortKey;
+        context.lastSort = sortKey;
         bsSort[sortKey] = (bsSort[sortKey] || initialDirection) === 'asc' ? 'desc' : 'asc';
-        if (bsSort[sortKey] === 'desc') { $this.find('span.sign').addClass('up'); }
+        if (bsSort[sortKey] === 'desc') {
+            $this.find('span.sign').addClass('up');
+            $this.addClass('up').removeClass('down nosort');
+        } else {
+            $this.addClass('down').removeClass('up nosort');
+        }
 
         // sort rows
         var rows = $table.children('tbody').children('tr');
         rows.tsort('td:eq(' + sortColumn + ')', { order: bsSort[sortKey], attr: 'data-value' });
-        
+
         // add class to sorted column cells
         $table.find('td.sorted, th.sorted').removeClass('sorted');
         rows.find('td:eq(' + sortColumn + ')').addClass('sorted');
