@@ -2,7 +2,7 @@
 
 [![Gem Version](https://badge.fury.io/rb/rails_bootstrap_sortable.svg)](http://badge.fury.io/rb/rails_bootstrap_sortable)
 
-This gem packages the lovely bootstrap-sortable gem from [drvic10k/bootstrap-sortable](https://github.com/drvic10k/bootstrap-sortable) into an easy to use form. rails_bootstrap_sortable adds the ability to sort bootstrap tables (or any type of table, for that matter) via Javascript by clicking on the headers of the table. The bootstrap-sortable gem is &copy; 2014 Matúš Brliť (drvic10k), bootstrap-sortable contributors.
+This gem packages the lovely bootstrap-sortable gem from [drvic10k/bootstrap-sortable](https://github.com/drvic10k/bootstrap-sortable) into an easy to use form. rails_bootstrap_sortable adds the ability to sort bootstrap tables (or any type of table, for that matter) via Javascript by clicking on the headers of the table. The bootstrap-sortable gem is &copy; 2015 Matúš Brliť (drvic10k), bootstrap-sortable contributors.
 
 ## Installation
 
