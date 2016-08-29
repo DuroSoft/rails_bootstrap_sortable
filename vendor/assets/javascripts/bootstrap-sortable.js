@@ -285,5 +285,7 @@
 
     // Initialise on DOM ready
     $($.bootstrapSortable);
+    // DOM ready compatible with turbolinks 5
+    $( document ).on('turbolinks:load', $.bootstrapSortable );
 
 }(jQuery));
