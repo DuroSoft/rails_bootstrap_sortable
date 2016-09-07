@@ -16,7 +16,7 @@ Gem::Specification.new do |spec|
   spec.files         = `git ls-files -z`.split("\x0")
   spec.require_paths = ["lib"]
 
-  spec.add_development_dependency "bundler", "~> 1.6"
+  spec.add_development_dependency "bundler", ">= 1.6"
   spec.add_development_dependency "rake"
-  spec.add_dependency "momentjs-rails", ">= 2.8.3", '~> 2'
+  spec.add_dependency "momentjs-rails", ">= 2.8.3"
 end
