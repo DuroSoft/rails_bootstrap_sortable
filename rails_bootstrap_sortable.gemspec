@@ -6,7 +6,7 @@ require 'rails_bootstrap_sortable/version'
 Gem::Specification.new do |spec|
   spec.name          = "rails_bootstrap_sortable"
   spec.version       = RailsBootstrapSortable::VERSION
-  spec.authors       = ["SamKelly"]
+  spec.authors       = ["sam0x17"]
   spec.email         = ["sam@durosoft.com"]
   spec.summary       = %q{A gem that packages the bootstrap-sortable js library from https://github.com/drvic10k/bootstrap-sortable}
   spec.description   = %q{}
